@@ -75,11 +75,11 @@ function abstract_register_required_plugins() {
 			'slug'      => 'query-monitor',
 			'required'  => false,
 		),
-		array(
+		/*array(
 			'name'      => 'ACF to REST API',
 			'slug'      => 'acf-to-rest-api',
 			'source'    => 'https://github.com/airesvsg/acf-to-rest-api/archive/master.zip',
-		),
+		),*/
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(
