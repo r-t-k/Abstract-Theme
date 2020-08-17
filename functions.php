@@ -9,6 +9,14 @@ error_reporting(E_ALL);
 ini_set('xdebug.var_display_max_data', '-1');*/
 
 /* ================================================================================================ */
+include_once get_template_directory() . '/lib/wp-package-updater-master/class-wp-package-updater.php';
+
+$prefix_updater = new WP_Package_Updater(
+	'https://wp.kyser.dev',
+	wp_normalize_path( __FILE__ ),
+	get_stylesheet_directory()
+);
+/* ================================================================================================ */
 require_once get_template_directory() . '/inc/class-tgm-plugin-activation.php';
 
 add_action( 'tgmpa_register', 'abstract_register_required_plugins' );
