@@ -11,7 +11,7 @@ ini_set('xdebug.var_display_max_data', '-1');*/
 /* ================================================================================================ */
 require_once get_template_directory() . '/lib/wp-package-updater/class-wp-package-updater.php';
 
-$prefix_updater = new WP_Package_Updater(
+$abstract_theme = new WP_Package_Updater(
 	'https://wp.kyser.dev',
 	wp_normalize_path( __FILE__ ),
 	get_stylesheet_directory()
