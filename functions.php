@@ -28,7 +28,7 @@ function abstract_register_required_plugins() {
 	 * If the source is NOT from the .org repo, then source is also required.
 	 */
 	$plugins = array(
-		array(
+		/*array(
 			'name'               => 'Gravity Forms', // The plugin name.
 			'slug'               => 'gravityforms', // The plugin slug (typically the folder name).
 			'source'             => get_template_directory() . '/lib/gravityforms_2.2.5.zip', // The plugin source.
@@ -49,7 +49,7 @@ function abstract_register_required_plugins() {
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
-		),
+		),*/
 		array(
 			'name'               => 'Models', // The plugin name.
 			'slug'               => 'models', // The plugin slug (typically the folder name).
@@ -98,11 +98,11 @@ function abstract_register_required_plugins() {
 			'slug'      => 'instant-images',
 			'required'  => false,
 		),
-		array(
+		/*array(
 			'name'      => 'LearnPress – WordPress LMS Plugin',
 			'slug'      => 'learnpress',
 			'required'  => false,
-		),
+		),*/
 
 
 	);
