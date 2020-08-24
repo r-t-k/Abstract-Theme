@@ -9,13 +9,13 @@ error_reporting(E_ALL);
 ini_set('xdebug.var_display_max_data', '-1');*/
 
 /* ================================================================================================ */
-require_once get_template_directory() . '/lib/wp-package-updater/class-wp-package-updater.php';
+/*require_once get_template_directory() . '/lib/wp-package-updater/class-wp-package-updater.php';
 
 $abstract_theme = new WP_Package_Updater(
 	'https://wp.kyser.dev',
 	wp_normalize_path( __FILE__ ),
 	get_stylesheet_directory()
-);
+);*/
 /* ================================================================================================ */
 require_once get_template_directory() . '/inc/class-tgm-plugin-activation.php';
 
@@ -55,9 +55,9 @@ function abstract_register_required_plugins() {
 			'name'               => 'Models', // The plugin name.
 			'slug'               => 'models', // The plugin slug (typically the folder name).
 			'source'             => get_template_directory() . '/lib/models.zip', // The plugin source.
-			'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+			'required'           => true, // If false, the plugin is only 'recommended' instead of required.
 			'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-			'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+			'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
@@ -76,17 +76,22 @@ function abstract_register_required_plugins() {
 		array(
 			'name'      => 'Advanced Custom Fields: Extended',
 			'slug'      => 'acf-extended',
-			'required'  => false,
+			'required'  => true,
+			'force_activation' => true,
 		),
 		array(
-			'name'      => 'SuperAdvancedCustomFields',
-			'slug'      => 'SuperAdvancedCustomFields',
-			'source'    => 'https://github.com/r-t-k/SuperAdvancedCustomFields/archive/master.zip',
+			'name'      => 'Github Updater',
+			'slug'      => 'github-updater',
+			'source'    => 'https://github.com/afragen/github-updater/archive/master.zip',
+			'required'  => true,
+			'force_activation' => true,
 		),
 		array(
 			'name'      => 'Intervention',
 			'slug'      => 'intervention',
 			'source'    => 'https://github.com/soberwp/intervention/archive/master.zip',
+			'required'  => true,
+			'force_activation' => true,
 		),
 		array(
 			'name'      => 'Gitium',

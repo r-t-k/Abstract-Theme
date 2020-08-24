@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Abs;
-
-
 class BlockLoader {
 	public $mode;
 	private $dir;
@@ -23,13 +20,13 @@ class BlockLoader {
 		}
 	}
 	public function get_block_template($block_name){
-		return $this->dir . '/block_templates/'. $block_name . '_template.php';
+		return $this->dir . '/library/block_templates/'. $block_name . '_template.php';
 	}
 	public function block_css_uri($block_name){
-		return $this->uri . '/block_assets/'. $block_name . '.css';
+		return $this->uri . '/library/block_assets/'. $block_name . '.css';
 	}
 	public function block_js_uri($block_name){
-		return $this->uri . '/block_assets/'. $block_name . '.js';
+		return $this->uri . '/library/block_assets/'. $block_name . '.js';
 	}
 	public static function new($mode = 'child'){
 		return new BlockLoader($mode);

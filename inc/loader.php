@@ -26,33 +26,27 @@ class loader {
 
 	public function autoload() {
 		if ( $this->mode === 'parent' ) {
-			$this->load_classes();
-			$this->load_settings();
-			$this->load_elements();
-			$this->load_components();
-			$this->load_cpt();
 			$this->load_tasks();
-			$this->load_options();
-
-			$this->load_forms();
+			$this->load_classes();
+			$this->load_api();
+			$this->load_settings(); //wp_intervention
+			$this->load_acf_builder(); //stout acf builder
+			$this->load_elements(); //UI elements
+			$this->load_components();
+			$this->load_tasks();
 			$this->load_blocks();
-			$this->load_post_models();
 			$this->remote_assets();
 			$this->enqueue_theme_assets();
 		}
 		if ( $this->mode === 'child' ) {
+			$this->load_tasks();
 			$this->load_classes();
+			$this->load_api();
+			$this->load_controllers();
 			$this->load_settings();
 			$this->load_elements();
 			$this->load_components();
-			$this->load_tasks();
-			$this->load_cpt();
-			/*$this->load_shortcodes();*/
-			$this->load_options();
-			$this->load_post_models();
-			$this->load_forms();
 			$this->load_blocks();
-			//$this->load_extras();
 			$this->remote_assets();
 			$this->enqueue_child_assets();
 		}
@@ -62,13 +56,15 @@ class loader {
 
 	private function load_settings() // Settings :: Hook = setup_theme
 	{
-		add_action(
-			'setup_theme', function () {
-			foreach ( glob( $this->dir . "/settings/*.php" ) as $setting ) {
-				require $setting;
+		if ( function_exists( '\Sober\Intervention\intervention' ) ) {
+			add_action(
+				'setup_theme', function () {
+				foreach ( glob( $this->dir . "/settings/*.php" ) as $setting ) {
+					require $setting;
+				}
 			}
+			);
 		}
-		);
 	}
 
 	private function load_classes() // Classes :: Hook = init
@@ -84,7 +80,32 @@ class loader {
 		);
 	}
 
-	private function load_cpt() // Classes :: Hook = init
+	private function load_controllers() // Classes :: Hook = wp_loaded
+	{
+		add_action(
+			'wp_loaded', function () {
+			//require_once get_template_directory() . '/vendor/autoload.php';
+			foreach ( glob( $this->dir . "/controllers/*.php" ) as $class ) {
+				require $class;
+			}
+		}
+		);
+	}
+
+	private function load_api() // Classes :: Hook = init
+	{
+		add_action(
+			'init', function () {
+			//require_once get_template_directory() . '/vendor/autoload.php';
+			foreach ( glob( $this->dir . "/api/*.php" ) as $class ) {
+				require $class;
+			}
+
+		}
+		);
+	}
+
+	/*private function load_cpt() // Classes :: Hook = init
 	{
 		add_action(
 			'init', function () {
@@ -94,18 +115,15 @@ class loader {
 			}
 		}
 		);
-	}
+	}*/
 
 	// PHP Functions autoload php files in the tasks directory || this is to clean up and organize theme functions by allowing them to easily be different files
-	private function load_tasks() // Tasks :: Hook = wp_loaded
+	private function load_tasks() // Tasks :: Hook = none
 	{
-		add_action(
-			'wp_loaded', function () {
-			foreach ( glob( $this->dir . "/tasks/*.php" ) as $task ) {
-				require $task;
-			}
+		foreach ( glob( $this->dir . "/tasks/*.php" ) as $task ) {
+			require $task;
 		}
-		);
+
 	}
 
 	/*private function load_shortcodes() // Shortcodes :: Hook = wp_head
@@ -118,8 +136,18 @@ class loader {
 		}
 		);
 	}*/
+	private function load_acf_builder() // Option Pages :: Hook = init
+	{
+		if ( function_exists( 'acf_add_local_field_group' ) ) {
+			add_action(
+				'init', function () {
+				require_once $this->dir . '/lib/acf-builder/autoload.php';
+			}
+			);
+		}
+	}
 
-	private function load_options() // Option Pages :: Hook = init
+	/*private function load_options() // Option Pages :: Hook = init
 	{
 		if ( function_exists( 'acf_add_local_field_group' ) ) {
 			add_action(
@@ -130,7 +158,8 @@ class loader {
 			}
 			);
 		}
-	}
+	}*/
+
 	private function load_blocks() // Option Pages :: Hook = init
 	{
 		if ( function_exists( 'acf_register_block_type' ) ) {
@@ -143,7 +172,8 @@ class loader {
 			);
 		}
 	}
-	private function load_post_models() // Option Pages :: Hook = init
+
+	/*private function load_post_models() // Option Pages :: Hook = init
 	{
 		if ( function_exists( 'acf_add_local_field_group' ) ) {
 			add_action(
@@ -154,9 +184,10 @@ class loader {
 			}
 			);
 		}
-	}
-//af_register_form
-	private function load_forms() // Option Pages :: Hook = init
+	}*/
+
+	//af_register_form
+	/*private function load_forms() // Option Pages :: Hook = init
 	{
 		if ( function_exists( 'af_register_form' ) ) {
 			add_action(
@@ -168,46 +199,43 @@ class loader {
 			);
 		}
 
-	}
+	}*/
 
 	private function load_elements() // Option Pages :: Hook = wp_loaded
 	{
-		if ( function_exists( 'acf_add_local_field_group' ) ) {
-			add_action(
-				'init', function () {
-				foreach ( glob( $this->dir . "/elements/*.php" ) as $el ) {
-					require $el;
-				}
+		add_action(
+			'wp_loaded', function () {
+			foreach ( glob( $this->dir . "/elements/*.php" ) as $el ) {
+				require $el;
 			}
-			);
 		}
+		);
+
 	}
 
 	private function load_components() // Option Pages :: Hook = wp_loaded
 	{
-		if ( function_exists( 'acf_add_local_field_group' ) ) {
-			add_action(
-				'init', function () {
-				foreach ( glob( $this->dir . "/components/*.php" ) as $component ) {
-					require $component;
-				}
-			}
-			);
-		}
-	}
-
-
-	private function load_extras() {
 		add_action(
-			'wp_head', function () {
-			require_once $this->dir . '/sidebars.php'; // Sidebars
-			require_once $this->dir . '/widgets.php'; // Widgets
+			'wp_loaded', function () {
+			foreach ( glob( $this->dir . "/components/*.php" ) as $component ) {
+				require $component;
+			}
 		}
 		);
 	}
 
+
+	/*	private function load_extras() {
+			add_action(
+				'wp_head', function () {
+				require_once $this->dir . '/sidebars.php'; // Sidebars
+				require_once $this->dir . '/widgets.php'; // Widgets
+			}
+			);
+		}*/
+
 	private function remote_assets() {
-		include_once $this->dir . '/assets/thirdparty/remote.php';
+		include_once $this->dir . 'remote_assetes.php';
 	}
 
 	// Javascript and CSS file autoloader (replace stylesheet_directory with template_directory if this not a child theme) :: Hook = wp_loaded
