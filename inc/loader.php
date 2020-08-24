@@ -235,7 +235,7 @@ class loader {
 		}*/
 
 	private function remote_assets() {
-		include_once $this->dir . 'remote_assets.php';
+		include_once $this->dir . '/remote_assets.php';
 	}
 
 	// Javascript and CSS file autoloader (replace stylesheet_directory with template_directory if this not a child theme) :: Hook = wp_loaded
