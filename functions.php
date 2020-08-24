@@ -50,6 +50,7 @@ function abstract_register_required_plugins() {
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
 		),*/
+
 		array(
 			'name'               => 'Models', // The plugin name.
 			'slug'               => 'models', // The plugin slug (typically the folder name).
@@ -60,6 +61,22 @@ function abstract_register_required_plugins() {
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+		),
+		array(
+			'name'               => 'Advanced Forms Pro', // The plugin name.
+			'slug'               => 'advanced-forms-pro', // The plugin slug (typically the folder name).
+			'source'             => get_template_directory() . '/lib/advanced-forms-pro.zip', // The plugin source.
+			'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+			'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+			'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+		),
+		array(
+			'name'      => 'Advanced Custom Fields: Extended',
+			'slug'      => 'acf-extended',
+			'required'  => false,
 		),
 		array(
 			'name'      => 'SuperAdvancedCustomFields',
@@ -207,6 +224,8 @@ function abstract_register_required_plugins() {
 
 
 require_once get_template_directory() . '/inc/loader.php';
+require_once get_template_directory() . '/inc/BlockLoader.php';
+require_once get_template_directory() . '/inc/helpers.php';
 $parentLoader = new \Kyser\loader('parent');
 //conditional resources here:
 $parentLoader->conditionalJS  = array();

@@ -7,49 +7,57 @@ class loader {
 	public $mode;
 	private $dir;
 	private $uri;
-	public function __construct( $mode = 'parent'){
+
+	public function __construct( $mode = 'parent' ) {
 		$this->mode = $mode;
 		$this->mode_set();
 	}
-	private function mode_set(){
-		if ($this->mode === 'parent'){
+
+	private function mode_set() {
+		if ( $this->mode === 'parent' ) {
 			$this->dir = get_template_directory();
 			$this->uri = get_template_directory_uri();
 		}
-		if ($this->mode === 'child'){
+		if ( $this->mode === 'child' ) {
 			$this->dir = get_stylesheet_directory();
 			$this->uri = get_stylesheet_directory_uri();
 		}
 	}
+
 	public function autoload() {
-		if ($this->mode === 'parent'){
-			$this->load_settings();
+		if ( $this->mode === 'parent' ) {
 			$this->load_classes();
+			$this->load_settings();
 			$this->load_elements();
 			$this->load_components();
 			$this->load_cpt();
 			$this->load_tasks();
 			$this->load_options();
+
+			$this->load_forms();
+			$this->load_blocks();
+			$this->load_post_models();
 			$this->remote_assets();
 			$this->enqueue_theme_assets();
 		}
-		if ($this->mode === 'child'){
-			$this->load_settings();
+		if ( $this->mode === 'child' ) {
 			$this->load_classes();
+			$this->load_settings();
 			$this->load_elements();
 			$this->load_components();
 			$this->load_tasks();
 			$this->load_cpt();
 			/*$this->load_shortcodes();*/
 			$this->load_options();
-
+			$this->load_post_models();
+			$this->load_forms();
+			$this->load_blocks();
 			//$this->load_extras();
 			$this->remote_assets();
 			$this->enqueue_child_assets();
 		}
 
 	}
-
 
 
 	private function load_settings() // Settings :: Hook = setup_theme
@@ -80,6 +88,7 @@ class loader {
 	{
 		add_action(
 			'init', function () {
+			require_once get_template_directory() . '/lib/extended-cpts-develop/extended-cpts.php';
 			foreach ( glob( $this->dir . "/cpt/*.php" ) as $cpt ) {
 				require $cpt;
 			}
@@ -122,6 +131,45 @@ class loader {
 			);
 		}
 	}
+	private function load_blocks() // Option Pages :: Hook = init
+	{
+		if ( function_exists( 'acf_register_block_type' ) ) {
+			add_action(
+				'acf/init', function () {
+				foreach ( glob( $this->dir . "/blocks/*.php" ) as $option ) {
+					require $option;
+				}
+			}
+			);
+		}
+	}
+	private function load_post_models() // Option Pages :: Hook = init
+	{
+		if ( function_exists( 'acf_add_local_field_group' ) ) {
+			add_action(
+				'wp_loaded', function () {
+				foreach ( glob( $this->dir . "/post_models/*.php" ) as $option ) {
+					require $option;
+				}
+			}
+			);
+		}
+	}
+//af_register_form
+	private function load_forms() // Option Pages :: Hook = init
+	{
+		if ( function_exists( 'af_register_form' ) ) {
+			add_action(
+				'af/register_forms', function () {
+				foreach ( glob( $this->dir . "/forms/*.php" ) as $option ) {
+					require $option;
+				}
+			}
+			);
+		}
+
+	}
+
 	private function load_elements() // Option Pages :: Hook = wp_loaded
 	{
 		if ( function_exists( 'acf_add_local_field_group' ) ) {
@@ -149,7 +197,6 @@ class loader {
 	}
 
 
-
 	private function load_extras() {
 		add_action(
 			'wp_head', function () {
@@ -158,9 +205,11 @@ class loader {
 		}
 		);
 	}
+
 	private function remote_assets() {
-			include_once $this->dir . '/assets/thirdparty/remote.php';
+		include_once $this->dir . '/assets/thirdparty/remote.php';
 	}
+
 	// Javascript and CSS file autoloader (replace stylesheet_directory with template_directory if this not a child theme) :: Hook = wp_loaded
 
 	public $conditionalCSS = array();
@@ -212,6 +261,7 @@ class loader {
 		}
 		);
 	}
+
 	private function enqueue_child_assets() {
 		add_action(
 			'wp_enqueue_scripts', function () {
