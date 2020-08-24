@@ -50,7 +50,13 @@ function abstract_register_required_plugins() {
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
 		),*/
-
+		array(
+			'name'   => 'Advanced Custom Fields PRO',
+			'slug'   => 'advanced-custom-fields-pro', // The plugin slug (typically the folder name).
+			'source' => 'https://github.com/wp-premium/advanced-custom-fields-pro/archive/master.zip',
+			'required'           => true, // If false, the plugin is only 'recommended' instead of required.
+			'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+		),
 		array(
 			'name'               => 'Models', // The plugin name.
 			'slug'               => 'models', // The plugin slug (typically the folder name).
