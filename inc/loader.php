@@ -160,12 +160,12 @@ class loader {
 		}
 	}*/
 
-	private function load_blocks() // Option Pages :: Hook = init
+	private function load_blocks() // Option Pages :: Hook = acf/init
 	{
 		if ( function_exists( 'acf_register_block_type' ) ) {
 			add_action(
 				'acf/init', function () {
-				foreach ( glob( $this->dir . "/blocks/*.php" ) as $option ) {
+				foreach ( glob( $this->dir . "/library/blocks/*.php" ) as $option ) {
 					require $option;
 				}
 			}
