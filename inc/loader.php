@@ -121,7 +121,7 @@ class loader {
 	private function load_tasks() // Tasks :: Hook = none
 	{
 		foreach ( glob( $this->dir . "/tasks/*.php" ) as $task ) {
-			require $task;
+			require_once $task;
 		}
 
 	}

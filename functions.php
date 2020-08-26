@@ -117,6 +117,21 @@ function abstract_register_required_plugins() {
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(
+			'name'      => 'NinjaFirewall (WP Edition) – Advanced Security',
+			'slug'      => 'ninjafirewall',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Slimstat Analytics',
+			'slug'      => 'wp-slimstat',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Easy WP SMTP',
+			'slug'      => 'easy-wp-smtp',
+			'required'  => false,
+		),
+		array(
 			'name'      => 'The SEO Framework',
 			'slug'      => 'autodescription',
 			'required'  => false,
