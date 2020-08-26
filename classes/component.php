@@ -4,15 +4,15 @@
 namespace Abs;
 
 
-abstract class element {
-	public $data;
+abstract class component {
+	public $state;
 	private $id;
 	public $root_classes = '';
 
 	function __construct() {
-		$rand                 = mt_rand();
-		$pre                  = 'abs_el_';
-		$this->id             = $pre . $rand;
+		$rand     = mt_rand();
+		$pre      = 'abs_com_';
+		$this->id = $pre . $rand;
 
 	}
 
@@ -27,12 +27,15 @@ abstract class element {
 		$this->script();
 		$this->style();
 	}
-	public function get_id(){
+
+	public function get_id() {
 		return $this->id;
 	}
-	public function id(){
-		echo '#'. $this->id;
+
+	public function id() {
+		echo '#' . $this->id;
 	}
+
 	public function instance() {
 		?>
 		<div id="<?= $this->id ?>" class="<?= $this->root_classes ?>">
@@ -42,4 +45,3 @@ abstract class element {
 	}
 
 }
-

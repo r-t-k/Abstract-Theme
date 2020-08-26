@@ -80,6 +80,18 @@ function abstract_register_required_plugins() {
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
 		),
 		array(
+			'name'      => 'Classic Editor',
+			'slug'      => 'classic-editor',
+			'required'  => false,
+			'force_activation' => true,
+		),
+		array(
+			'name'      => 'ACF to REST API',
+			'slug'      => 'acf-to-rest-api',
+			'required'  => false,
+			'force_activation' => true,
+		),
+		array(
 			'name'      => 'Advanced Custom Fields: Extended',
 			'slug'      => 'acf-extended',
 			'required'  => true,
@@ -129,6 +141,11 @@ function abstract_register_required_plugins() {
 		array(
 			'name'      => 'Easy WP SMTP',
 			'slug'      => 'easy-wp-smtp',
+			'required'  => false,
+		),
+		array(
+			'name'      => 'Duplicate Page',
+			'slug'      => 'duplicate-page',
 			'required'  => false,
 		),
 		array(

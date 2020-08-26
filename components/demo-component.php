@@ -1,8 +1,8 @@
 <?php
-function demo_component(){
+/*function demo_component(){
 	$el_demo = new \Abs\Demo();
 	$el_demo->data['test'] = 'variables passed through the data prop';
-	?>
+	*/?><!--
 
 	<div>
 		<h1>Here is a demo component.</h1>
@@ -15,7 +15,7 @@ function demo_component(){
 		<p>
 			Components are modular and are designed to include elements you have created within them.
 		</p>
-		<p>Here is an example element <?= $el_demo->instance(); ?></p>
+		<p>Here is an example element <?/*= $el_demo->instance(); */?></p>
 		<p>Elements are PHP Child Classes that extend a Base Element Class</p>
 		<p>They are loosely inspired by the way VueJS handles components.</p>
 		<p>Each Component will have three methods in which you can add code.</p>
@@ -28,5 +28,5 @@ function demo_component(){
 		<p>This creates a structured way to create UI elements for use in your components or templates directly</p>
 	</div>
 
-	<?php
-}
+	--><?php
+/*}*/
