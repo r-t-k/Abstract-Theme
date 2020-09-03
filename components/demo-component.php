@@ -3,7 +3,6 @@
 	$el_demo = new \Abs\Demo();
 	$el_demo->data['test'] = 'variables passed through the data prop';
 	*/?><!--
-
 	<div>
 		<h1>Here is a demo component.</h1>
 		<p>
@@ -20,7 +19,7 @@
 		<p>They are loosely inspired by the way VueJS handles components.</p>
 		<p>Each Component will have three methods in which you can add code.</p>
 		<ul>
-			<li>template()</li>
+			<li>template() test</li>
 			<li>script()</li>
 			<li>style()</li>
 		</ul>

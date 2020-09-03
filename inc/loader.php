@@ -291,50 +291,105 @@ class loader {
 	}
 
 	private function enqueue_child_assets() {
-		add_action(
-			'wp_enqueue_scripts', function () {
-			$dirJS  = new \DirectoryIterator( get_stylesheet_directory() . '/js' );
-			$dirCSS = new \DirectoryIterator( get_stylesheet_directory() . '/css' );
+		global $abstract_dev;
 
-			foreach ( $dirJS as $file ) {
+		if($abstract_dev === true){
+			add_action( 'wp_enqueue_scripts', function() {
+				$dirJS  = new \DirectoryIterator( get_stylesheet_directory() . '/js' );
+				$dirCSS = new \DirectoryIterator( get_stylesheet_directory() . '/css' );
+				global $abstract_dev, $minifier;
 
-				if ( pathinfo( $file, PATHINFO_EXTENSION ) === 'js' && ! in_array( basename( $file ), array_keys( $this->conditionalJS ) ) ) {
-					$name         = basename( $file, '.js' );
-					$name_and_ext = basename( $file );
-					wp_enqueue_script( $name, get_stylesheet_directory_uri() . '/js/' . $name_and_ext );
+				foreach ( $dirJS as $file ) {
+					if ( pathinfo( $file, PATHINFO_EXTENSION ) === 'js' && ! in_array( basename( $file ), array_keys( $this->conditionalJS ) ) ) {
+						$name         = basename( $file, '.js' );
+						$name_and_ext = basename( $file );
+						wp_enqueue_script( $name, get_stylesheet_directory_uri() . '/js/' . $name_and_ext );
+					}
+				}
+				array_walk(
+					$this->conditionalJS, function ( &$el, &$key ) {
+					if ( $el ) {
+						wp_enqueue_script( $key, get_stylesheet_directory_uri() . '/js/' . $key );
+					}
+				}
+				);
+
+				foreach ( $dirCSS as $style ) {
+
+					if ( pathinfo( $style, PATHINFO_EXTENSION ) === 'css' && ! in_array( basename( $style ), array_keys( $this->conditionalCSS ) ) ) {
+						$s_name         = basename( $style, '.css' );
+						$s_name_and_ext = basename( $style );
+						if($abstract_dev){
+							wp_enqueue_style( $s_name, get_stylesheet_directory_uri() . '/css/' . $s_name_and_ext );
+						}
+						if(!$abstract_dev) {
+							$minifier->add(get_stylesheet_directory_uri() . '/css/' . $s_name_and_ext);
+						}
+
+					}
 
 				}
-			}
-			array_walk(
-				$this->conditionalJS, function ( &$el, &$key ) {
-				if ( $el ) {
-					wp_enqueue_script( $key, get_stylesheet_directory_uri() . '/js/' . $key );
+
+				array_walk(
+					$this->conditionalCSS, function ( &$el, &$key ) {
+					if ( $el ) {
+						wp_enqueue_style( $key, get_stylesheet_directory_uri() . '/css/' . $key );
+					}
 				}
-			}
-			);
-
-			foreach ( $dirCSS as $style ) {
-
-				if ( pathinfo( $style, PATHINFO_EXTENSION ) === 'css' && ! in_array( basename( $style ), array_keys( $this->conditionalCSS ) ) ) {
-					$s_name         = basename( $style, '.css' );
-					$s_name_and_ext = basename( $style );
-
-
-					wp_enqueue_style( $s_name, get_stylesheet_directory_uri() . '/css/' . $s_name_and_ext );
-
-				}
-
-			}
-
-			array_walk(
-				$this->conditionalCSS, function ( &$el, &$key ) {
-				if ( $el ) {
-					wp_enqueue_style( $key, get_stylesheet_directory_uri() . '/css/' . $key );
-				}
-			}
-			);
+				);
+			});
 		}
-		);
+		if($abstract_dev === false){
+			add_action( 'wp', function() {
+				$dirJS  = new \DirectoryIterator( get_stylesheet_directory() . '/js' );
+				$dirCSS = new \DirectoryIterator( get_stylesheet_directory() . '/css' );
+				global $abstract_dev, $minifier, $JSminifier;
+
+				foreach ( $dirJS as $file ) {
+					if ( pathinfo( $file, PATHINFO_EXTENSION ) === 'js' && ! in_array( basename( $file ), array_keys( $this->conditionalJS ) ) ) {
+						$name         = basename( $file, '.js' );
+						$name_and_ext = basename( $file );
+						if($abstract_dev === false) {
+							$JSminifier->add(get_stylesheet_directory() . '/js/' . $name_and_ext);
+						}
+						if($abstract_dev === true) {
+							wp_enqueue_script( $name, get_stylesheet_directory_uri() . '/js/' . $name_and_ext );
+						}
+					}
+				}
+				array_walk(
+					$this->conditionalJS, function ( &$el, &$key ) {
+					if ( $el ) {
+						wp_enqueue_script( $key, get_stylesheet_directory_uri() . '/js/' . $key );
+					}
+				}
+				);
+
+				foreach ( $dirCSS as $style ) {
+
+					if ( pathinfo( $style, PATHINFO_EXTENSION ) === 'css' && ! in_array( basename( $style ), array_keys( $this->conditionalCSS ) ) ) {
+						$s_name         = basename( $style, '.css' );
+						$s_name_and_ext = basename( $style );
+						if($abstract_dev === true){
+							wp_enqueue_style( $s_name, get_stylesheet_directory_uri() . '/css/' . $s_name_and_ext );
+						}
+						if($abstract_dev === false) {
+							$minifier->add(get_stylesheet_directory() . '/css/' . $s_name_and_ext);
+						}
+
+					}
+
+				}
+
+				array_walk(
+					$this->conditionalCSS, function ( &$el, &$key ) {
+					if ( $el ) {
+						wp_enqueue_style( $key, get_stylesheet_directory_uri() . '/css/' . $key );
+					}
+				}
+				);
+			});
+		}
 	}
 
 }

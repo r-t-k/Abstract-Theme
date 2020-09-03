@@ -30,6 +30,11 @@ class ComposerStaticInit883eaefe99d7d9b85f2037e4bdc7fc2e
         array (
             'Noodlehaus\\' => 11,
         ),
+        'M' => 
+        array (
+            'MatthiasMullie\\PathConverter\\' => 29,
+            'MatthiasMullie\\Minify\\' => 22,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -66,6 +71,14 @@ class ComposerStaticInit883eaefe99d7d9b85f2037e4bdc7fc2e
         'Noodlehaus\\' => 
         array (
             0 => __DIR__ . '/..' . '/hassankhan/config/src',
+        ),
+        'MatthiasMullie\\PathConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/path-converter/src',
+        ),
+        'MatthiasMullie\\Minify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

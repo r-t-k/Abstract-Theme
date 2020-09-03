@@ -260,12 +260,10 @@ function abstract_register_required_plugins() {
 }
 
 /* ================================================================================================ */
+//vendor
+
+/* ================================================================================================ */
 //loader
-
-
-
-
-
 require_once get_template_directory() . '/inc/loader.php';
 require_once get_template_directory() . '/inc/BlockLoader.php';
 require_once get_template_directory() . '/inc/helpers.php';
