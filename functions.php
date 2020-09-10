@@ -263,6 +263,7 @@ function abstract_register_required_plugins() {
 //vendor
 
 /* ================================================================================================ */
+$abstract_parent_version = 0.56; //abstract parent theme version
 //loader
 require_once get_template_directory() . '/inc/loader.php';
 require_once get_template_directory() . '/inc/BlockLoader.php';
